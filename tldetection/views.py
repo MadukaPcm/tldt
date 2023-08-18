@@ -62,12 +62,17 @@ class LeadViewset(viewsets.ViewSet):
 
 # for customer serializer for getting data...
 class CustomAPIView(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated
+        ]
+    
     def post(self, request):
         serializer = CustomSerializer(data=request.data)
         if serializer.is_valid():
             name = request.data.get('name')
             email = request.data.get('email')
             
+            Call()
             #you can now perform additional processing here....
             
             response_data = {
@@ -79,6 +84,9 @@ class CustomAPIView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+def Call():
+    print("Bro frank")
+    
 # user authentication with token....
 class SignUpAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -132,14 +140,26 @@ class SignInAPI(generics.GenericAPIView):
         })
         
 class MainUser(generics.RetrieveAPIView):
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
+    # permission_classes = [
+    #     permissions.IsAuthenticated
+    # ]
     serializer_class = UserSerializer
     
     def get_object(self):
         return self.request.user
     
+class MyPermissionsViewSet(viewsets.ViewSet):
+    serializer_class = MyPermissionsSerializer
+    permission_classes = [
+        permissions.IsAuthenticated
+        ]
+
+    def list(self,request):
+        user_permissions = PCMUsersWithPermissions.objects.filter(user_with_permission_user=request.user)
+        permisionList = user_permissions.values_list('user_with_permission_permission__permission_name', flat=True)
+        # serializer = MyPermissionsSerializer(permission, many=True)
+        # return Response(permisionList.data)
+        return Response(permisionList)
 ######### LEARNING CRUD APIS WITH DJANGO REST FRAMEWORK ################
 
 

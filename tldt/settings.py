@@ -78,6 +78,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'tldt.wsgi.application'
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication', ),
+}
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 

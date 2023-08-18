@@ -6,6 +6,7 @@ from . import views
 #dealing with routers....add()
 router = routers.DefaultRouter()
 router.register('leads', views.LeadViewset, 'leads')
+router.register('myPermissions', views.MyPermissionsViewSet, 'myPermissions')
 
 urlpatterns = [
     #   #tuts #         #
@@ -19,6 +20,7 @@ urlpatterns = [
     path('auth/login', views.SignInAPI.as_view()),
     path('auth/user', views.MainUser.as_view()),
     path('auth/logout',knox_views.LogoutView.as_view(), name="knox_logout"),
+    # path('auth/mypermissions', views.MyPermissionsViewSet, name='myPermissions'),
     ######### LEARNING CRUD APIS WITH DJANGO REST FRAMEWORK ################
     
     

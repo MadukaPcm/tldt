@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from . models import UploadedImage,LeadModel,User
+from . models import UploadedImage,LeadModel,User,PCMUsersWithPermissions
 from django.db import models
 from django.db.models import fields
 from django.contrib.auth import authenticate
@@ -19,9 +19,9 @@ class LeadModelSerializer(serializers.ModelSerializer):
 #customer serializer...
 class CustomSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
-    email = serializers.EmailField()
+    email = serializers.EmailField()   
 
-# user authentication with token....
+# user authentication with token..
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -47,5 +47,9 @@ class LoginSerializer(serializers.Serializer):
             return user
         raise serializers.ValidationError('Incorrect Credentials passed.')
    
+class MyPermissionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PCMUsersWithPermissions
+        fields = ('user_with_permission_unique_id','user_with_permission_permission','user_with_permission_user')
           
 ######### LEARNING CRUD APIS WITH DJANGO REST FRAMEWORK ################
